@@ -10,18 +10,34 @@ import it.unibo.inner.api.Predicate;
 
 public class ImplIterableWithPolicy<T> implements IterableWithPolicy<T>{
     private List<T> elements = new ArrayList<>();
+    private Predicate<T> filter;   
    
-    public ImplIterableWithPolicy(T[] elements) {
+    /*public ImplIterableWithPolicy(T[] elements) {
         this.elements = List.of(elements);  //viene creata una lista i cui elementi sono quelli dell'array
+    }*/
+
+    public ImplIterableWithPolicy(T[] elements) {        
+        this(elements, new Predicate<T>() {
+            public boolean test(T elem){
+                return true;
+            }
+        });
     }
 
+
     public void setIterationPolicy(Predicate<T> filter){
-        //empty 
+        this.filter = filter;
+    }
+
+    public ImplIterableWithPolicy(T[] elements, Predicate<T> filter){
+        this.elements = List.of(elements);
+        this.filter = filter;
     }
 
     public class ImplIterator implements Iterator<T>{ //il T deve essere lo stesso di impleme.. quindi non va scritto implIterator <T>, è come se stessi sovrascrivendo il tipo
         private int curr;
        
+        //inner class
         public ImplIterator(){
             this.curr = 0;
         }
@@ -38,7 +54,7 @@ public class ImplIterableWithPolicy<T> implements IterableWithPolicy<T>{
             }
         }
     }
-
+    
     public ImplIterator iterator(){
         return new ImplIterator();
     }
