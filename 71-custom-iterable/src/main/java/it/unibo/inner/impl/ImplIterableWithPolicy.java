@@ -34,10 +34,10 @@ public class ImplIterableWithPolicy<T> implements IterableWithPolicy<T>{
         this.filter = filter;
     }
 
-    public class ImplIterator implements Iterator<T>{ //il T deve essere lo stesso di impleme.. quindi non va scritto implIterator <T>, è come se stessi sovrascrivendo il tipo
+    //inner class parte 1
+    /*public class ImplIterator implements Iterator<T>{ //il T deve essere lo stesso di impleme.. quindi non va scritto implIterator <T>, è come se stessi sovrascrivendo il tipo
         private int curr;
        
-        //inner class
         public ImplIterator(){
             this.curr = 0;
         }
@@ -57,5 +57,37 @@ public class ImplIterableWithPolicy<T> implements IterableWithPolicy<T>{
     
     public ImplIterator iterator(){
         return new ImplIterator();
+    }*/
+
+    //inner class parte 2
+    public class ImplIterator implements Iterator<T>{ //il T deve essere lo stesso di impleme.. quindi non va scritto implIterator <T>, è come se stessi sovrascrivendo il tipo
+        private int curr;
+       
+        public ImplIterator(){
+            this.curr = 0;
+        }
+
+        public boolean hasNext(){
+            while(elements.size() > curr){
+                if(filter.test(elements.get(curr))){
+                    return true;
+                }
+                curr++;
+            }
+            return false;
+        }
+
+        public T next(){ 
+            if(hasNext()){
+                return elements.get(curr++);
+            } else{
+                throw new NoSuchElementException();
+            }
+        }
     }
+    
+    public ImplIterator iterator(){
+        return new ImplIterator();
+    }
+    
 }
