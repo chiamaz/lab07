@@ -52,7 +52,7 @@ public static final int TRENTUNO = 31;
             String conf = name.toUpperCase().trim();
             List<Month> found = new ArrayList<>();
             for (Month month : Month.values()) {
-                if(month.toString().startsWith(name)){
+                if(month.toString().startsWith(conf)){
                     found.add(month);
                 }
             }
@@ -67,30 +67,27 @@ public static final int TRENTUNO = 31;
     }
 
     
-
-    static class sortByDate implements Comparator<String>{
-        
+    static class SortByDate implements Comparator<String>{
         public int compare(final String month1, final String month2){
-            return Month.fromString(month1).getDays()-Month.fromString(month2).getDays();
+            return Integer.compare(Month.fromString(month1).getDays(), Month.fromString(month2).getDays());
         }
     }
 
     static class SortByMonthOrder implements Comparator<String>{
-        
-    public int compare(final String month1, final String month2){
-            return Month.fromString(month1).getDays()-Month.fromString(month2).getDays();
+        public int compare(final String month1, final String month2){
+            return Month.fromString(month1).compareTo(Month.fromString(month2));
         }
     }
 
 
     @Override
     public Comparator<String> sortByDays() {
-        return new sortByDate();
+        return new SortByDate();
     }
 
     @Override
     public Comparator<String> sortByOrder() {
-        return null;
+        return new SortByMonthOrder();
     }
 
 
