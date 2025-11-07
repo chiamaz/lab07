@@ -59,6 +59,7 @@ public final class Transformers {
             result.add(transformer.call(input));
         }
         return result;*/
+        //opzione DRY
         return flattenTransform(base, new Function<I,Collection<? extends O>>() {
             public Collection<O> call(I input){
                 O result = transformer.call(input);

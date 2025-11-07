@@ -45,7 +45,7 @@ public static final int TRENTUNO = 31;
             return this.days;
         }
 
-        public Month fromString (String name){
+        public static Month fromString (String name){
             if(name == null){
                 throw new NullPointerException();
             }
@@ -68,9 +68,24 @@ public static final int TRENTUNO = 31;
 
     
 
+    static class sortByDate implements Comparator<String>{
+        
+        public int compare(final String month1, final String month2){
+            return Month.fromString(month1).getDays()-Month.fromString(month2).getDays();
+        }
+    }
+
+    static class SortByMonthOrder implements Comparator<String>{
+        
+    public int compare(final String month1, final String month2){
+            return Month.fromString(month1).getDays()-Month.fromString(month2).getDays();
+        }
+    }
+
+
     @Override
     public Comparator<String> sortByDays() {
-        return null;
+        return new sortByDate();
     }
 
     @Override
